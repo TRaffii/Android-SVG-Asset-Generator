@@ -4,10 +4,11 @@ import os
 import sys
 from xml.etree.ElementTree import ElementTree
 import subprocess
-from PIL import Image
+import Image
 import platform
 
 document = ElementTree()
+tempOutFile = "./temp/out.png"
 
 def toBlackOrTransparent(color):
 	if color[3] == 0:
@@ -37,9 +38,13 @@ def create9PatchForDpi(file, dpi, name, resourceLocation):
 	else: 
 		inkscapePath = "inkscape"
 	
-	subprocess.check_output([inkscapePath,"-d", str(dpi), "-e", "./temp/out.png", "./temp/9patch.svg"])
+	tmpOutAbs = os.path.abspath(tempOutFile)
+	temp9path = os.path.abspath("./temp/9patch.svg")
+	subprocess.check_output([inkscapePath,"-d", str(dpi), "-e",tmpOutAbs , temp9path])
 
-	im = Image.open("./temp/out.png")
+	
+
+	im = Image.open(tmpOutAbs)
 	pix = im.load()
 	newSize = (im.size[0] +2 , im.size[1] +2)
 	nim = Image.new("RGBA", newSize, (255, 255, 255, 0))
@@ -57,9 +62,11 @@ def create9PatchForDpi(file, dpi, name, resourceLocation):
 		data = toBlackOrTransparent(pix[im.size[0]-1, y])
 		npix[newSize[0]-1, y+1] = data
 
-	subprocess.check_output([inkscapePath,"-d", str(dpi), "-e", "./temp/out.png", file])
+	
+	file = os.path.abspath(file)
+	subprocess.check_output([inkscapePath,"-d", str(dpi), "-e",tmpOutAbs , file])
 
-	im = Image.open("./temp/out.png")
+	im = Image.open(tmpOutAbs)
 	nim.paste(im, (1,1))
 
 	filename = os.path.split(file)[1]
@@ -71,7 +78,6 @@ dir = "./temp"
 if not os.path.exists(dir):
 	os.makedirs(dir)
 
-create9PatchSvg(sys.argv[1]);
+create9PatchSvg(sys.argv[1])
 for (dpi, name) in [(320, "xhdpi"), (240, "hdpi"), (160, "mdpi"), (120, "ldpi")]:
 	create9PatchForDpi(sys.argv[1], dpi, name, sys.argv[2])
-
