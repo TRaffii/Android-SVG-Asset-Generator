@@ -7,6 +7,7 @@ I had problem with running this script in Kubuntu 15.10, change list
 
 
 During PIL installation i had problem with unsuccesfull installation (error code 1), this is my fix: 
+
 sudo apt-get install python-dev 
 
 sudo apt-get install libjpeg-dev
