@@ -6,13 +6,19 @@ I had problem with running this script in Kubuntu 15.10, change list
 - change import for Image module
 
 
-During PIL installation i had problem with unsuccesfull installation (error code 1), this is my fix:
-sudo apt-get install python-dev
+During PIL installation i had problem with unsuccesfull installation (error code 1), this is my fix: 
+sudo apt-get install python-dev 
+
 sudo apt-get install libjpeg-dev
+
 sudo apt-get install libjpeg8-dev
+
 sudo apt-get install libpng3 
+
 sudo apt-get install libfreetype6-dev
+
 sudo pip install Pillow  --allow-unverified PIL --allow-all-external
+
 
 Original text
 ---------------------------------------
