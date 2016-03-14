@@ -4,7 +4,7 @@ import os
 import sys
 from xml.etree.ElementTree import ElementTree
 import subprocess
-import Image
+from PIL import Image
 import platform
 
 document = ElementTree()
